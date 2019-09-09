@@ -3,18 +3,7 @@ import React from 'react';
 import TodoList from './components/TodoComponents/TodoList';
 import TodoForm from './components/TodoComponents/TodoForm';
 
-const todoData = [
-  {
-    task: 'Organize Garage',
-    id: 1528817077286,
-    completed: false
-  },
-  {
-    task: 'Bake Cookies',
-    id: 1528817084358,
-    completed: false
-  }
-];
+import './components/TodoComponents/Todo.css';
 
 class App extends React.Component {
   // you will need a place to store your state in this component.
@@ -23,15 +12,15 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      todo: todoData
+      todo: "",
+      todos: []
     };
   }
 
   toggleItem = id => {
-    console.log(id);
 
     this.setState({
-      todo: this.state.todo.map(item => {
+      todos: this.state.todos.map(item => {
         if (item.id === id) {
           return {
             ...item,
@@ -44,9 +33,15 @@ class App extends React.Component {
     })
   }
 
+  handleChanges = e => {
+    this.setState({
+      todo: e.target.value
+    });
+  };
+
+
   addTodo = e => {
     e.preventDefault();
-
     const newTodo = {
       task: this.state.todo,
       completed: false,
@@ -62,8 +57,11 @@ class App extends React.Component {
   clearCompletedTodos = e => {
     e.preventDefault();
 
-    let todos = this.state.todo.filter(todo => !todo.completed);
-    this.setState({ todos });
+    this.setState({
+      todos: this.state.todos.filter(value => {
+        return (!value.completed)
+      })
+    })
   };
 
   render() {
@@ -71,14 +69,14 @@ class App extends React.Component {
       <div>
         <h2>Welcome to your Todo App!</h2>
         <TodoList
-          todo={this.state.todo}
+          todo={this.state.todos}
           toggleItem={this.toggleItem}
+          handleClearTodos={this.clearCompletedTodos}
         />
         <TodoForm
           value={this.state.todo}
-          handleTodoChange={this.changeTodo}
-          handleAddTodo={this.addTodo}
-          handleClearTodos={this.clearCompletedTodos}
+          handleChanges={this.handleChanges}
+          addTodo={this.addTodo}
         />
       </div>
     );

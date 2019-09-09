@@ -5,13 +5,12 @@ import React from 'react';
 import Todo from './Todo';
 
 const TodoList = props => {
-  console.log(props);
   return (
     <div>
       {props.todo.map(item => (
         <Todo key={item.id} todo={item} toggleItem={props.toggleItem} />
       ))}
-      <button onClick={props.clearCompletedTodos}>
+      <button onClick={props.handleClearTodos}>
         Clear Todo
         </button>
     </div>
